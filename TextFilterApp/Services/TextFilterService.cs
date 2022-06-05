@@ -4,14 +4,14 @@ namespace TextFilterApp.Services
 {
     public class TextFilterService : ITextFilterService
     {
-        private readonly char[] symbols = ".,!?():;`'\" ".ToCharArray();
+        private readonly char[] symbols = ".,!?():;<>{}[]|#@-_=+^*£$%~`'\" ".ToCharArray();
 
         /// <summary>
-        /// Takes a string and filters out word returning a list of strings
+        /// Takes a string and filters out all symbols returning a list of words
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public List<string> FilterOutWords(string text)
+        public List<string> FilterOutSymbols(string text)
         {
             ValidateParameters(text);
             var words = text.Split(symbols);

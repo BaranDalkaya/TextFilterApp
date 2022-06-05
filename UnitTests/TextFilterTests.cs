@@ -29,7 +29,7 @@ namespace UnitTests
             var filter2 = new List<string>() { "filter2" };
             var filter3 = new List<string>() { "filter3" };
 
-            _textFilterService.Setup(x => x.FilterOutWords(text)).Returns(words);
+            _textFilterService.Setup(x => x.FilterOutSymbols(text)).Returns(words);
             _textFilterService.Setup(x => x.GetAllContainingAnyFromCollectionInMiddle(words, It.IsAny<char[]>())).Returns(filter1);
             _textFilterService.Setup(x => x.GetAllShorterThan(filter1, It.IsAny<int>())).Returns(filter2);
             _textFilterService.Setup(x => x.GetAllContainingChar(filter2, It.IsAny<char>())).Returns(filter3);

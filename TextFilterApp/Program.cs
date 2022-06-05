@@ -5,36 +5,38 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
 
-using IHost host = Host.CreateDefaultBuilder(args)
+using var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((_, services) =>
-        services.AddScoped<ITextFilterService, TextFilterService>())
+        services.AddTransient<ITextFilterService, TextFilterService>()
+        .AddTransient<TextFilter>())
     .Build();
 
-await host.StartAsync();
+ApplyFiltersToTextFile(host.Services, "Application.Resources.TextFile.txt");
+await host.RunAsync();
 
-var resourceName = "Application.Resources.TextFile.txt";
-var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
-if (stream != null)
+static void ApplyFiltersToTextFile(IServiceProvider services, string resourceName)
 {
-    using (var sr = new StreamReader(stream))
+    var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
+    if (stream != null)
     {
-        var textFilter = new TextFilter(host.Services.GetRequiredService<ITextFilterService>());
-
-        while (!sr.EndOfStream)
+        using (var sr = new StreamReader(stream))
         {
-            var line = sr.ReadLine();
-            var filteredWords = textFilter.FilterText(line);
-
-            foreach (var word in filteredWords)
+            var textFilter = services.GetRequiredService<TextFilter>();
+            while (!sr.EndOfStream)
             {
-                Console.WriteLine(word);
+                var line = sr.ReadLine();
+                var filteredWords = textFilter.FilterText(line);
+
+                foreach (var word in filteredWords)
+                {
+                    Console.WriteLine(word);
+                }
             }
         }
     }
-}
-else
-{
-    Console.WriteLine($"Failed loading resource: {resourceName}");
+    else
+    {
+        Console.WriteLine($"Failed loading resource: {resourceName}");
+    }
 }
 
-await host.StopAsync();

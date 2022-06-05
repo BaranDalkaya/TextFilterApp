@@ -33,14 +33,14 @@ namespace UnitTests
         }
         #endregion
 
-        #region FilterOutWords
+        #region FilterOutSymbolsTests
         [TestMethod]
         public void FilterOutWords_Success()
         {
             var text = "One,;Two! \"Three? :Four `Five Six).Seven";
             var expexted = new List<string>() { "One", "Two", "Three", "Four", "Five", "Six", "Seven" };
 
-            var result = _service.FilterOutWords(text);
+            var result = _service.FilterOutSymbols(text);
 
             Assert.IsNotNull(result);
             CollectionAssert.AreEqual(expexted, result);
@@ -51,7 +51,7 @@ namespace UnitTests
         {
             var expexted = new List<string>();
 
-            var result = _service.FilterOutWords(string.Empty);
+            var result = _service.FilterOutSymbols(string.Empty);
 
             Assert.IsNotNull(result);
             CollectionAssert.AreEqual(expexted, result);
@@ -61,7 +61,7 @@ namespace UnitTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void FilterOutWords_Error_NullInput()
         {
-            _service.FilterOutWords(null);
+            _service.FilterOutSymbols(null);
         }
         #endregion
 
