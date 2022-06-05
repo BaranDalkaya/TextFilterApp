@@ -1,5 +1,5 @@
-using TextFilterApp;
-using TextFilterApp.Services.Interfaces;
+using Application;
+using Application.Services.Interfaces;
 using Moq;
 
 namespace UnitTests
@@ -9,6 +9,8 @@ namespace UnitTests
     {
         private MockRepository _mock;
         private Mock<ITextFilterService> _textFilterService;
+        private Mock<IAssemblyLoader> _assemblyLoader;
+
         private TextFilter _textFilter;
 
         [TestInitialize]
@@ -16,8 +18,18 @@ namespace UnitTests
         {
             _mock = new MockRepository(MockBehavior.Strict);
             _textFilterService = _mock.Create<ITextFilterService>();
-            _textFilter = new TextFilter(_textFilterService.Object);
+            _assemblyLoader = _mock.Create<IAssemblyLoader>();
+            _textFilter = new TextFilter(_textFilterService.Object, _assemblyLoader.Object);
         }
+
+        [TestMethod]
+        public void ApplyFilterToFile_Success()
+        {
+            var resourceName = "Testing.txt";
+            _assemblyLoader.Setup(x => x.LoadEmbeddedResource(resourceName)).Returns(new MemoryStream());
+            _textFilter.ApplyFiltersToFile(resourceName);
+        }
+
 
 
         [TestMethod]
@@ -37,7 +49,7 @@ namespace UnitTests
             var result = _textFilter.FilterText(text);
 
             Assert.IsNotNull(result);
-            CollectionAssert.AreEqual(filter3, result);
+            CollectionAssert.AreEqual(filter3, result.ToList());
         }
 
         [TestMethod]
@@ -45,7 +57,7 @@ namespace UnitTests
         {
             var result = _textFilter.FilterText(string.Empty);
             Assert.IsNotNull(result);
-            CollectionAssert.AreEqual(new List<string>(), result);
+            CollectionAssert.AreEqual(new List<string>(), result.ToList());
         }
 
         [TestMethod]
@@ -53,7 +65,7 @@ namespace UnitTests
         {
             var result = _textFilter.FilterText(null);
             Assert.IsNotNull(result);
-            CollectionAssert.AreEqual(new List<string>(), result);
+            CollectionAssert.AreEqual(new List<string>(), result.ToList());
         }
     }
 }

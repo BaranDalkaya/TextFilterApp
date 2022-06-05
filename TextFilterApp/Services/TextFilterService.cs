@@ -1,6 +1,6 @@
-﻿using TextFilterApp.Services.Interfaces;
+﻿using Application.Services.Interfaces;
 
-namespace TextFilterApp.Services
+namespace Application.Services
 {
     public class TextFilterService : ITextFilterService
     {
@@ -11,7 +11,7 @@ namespace TextFilterApp.Services
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public List<string> FilterOutSymbols(string text)
+        public IEnumerable<string> FilterOutSymbols(string text)
         {
             ValidateParameters(text);
             var words = text.Split(symbols);
@@ -25,7 +25,7 @@ namespace TextFilterApp.Services
         /// <param name="words"></param>
         /// <param name="collection"></param>
         /// <returns></returns>
-        public List<string> GetAllContainingAnyFromCollectionInMiddle(List<string> words, char[] collection)
+        public IEnumerable<string> GetAllContainingAnyFromCollectionInMiddle(IEnumerable<string> words, char[] collection)
         {
             ValidateParameters(words, collection);
 
@@ -60,10 +60,10 @@ namespace TextFilterApp.Services
         /// <param name="words"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public List<string> GetAllShorterThan(List<string> words, int value = 4)
+        public IEnumerable<string> GetAllShorterThan(IEnumerable<string> words, int value = 4)
         {
             ValidateParameters(words);
-            return words.Where(x => x.Length < value).ToList();
+            return words.Where(x => x.Length < value);
         }
 
         /// <summary>
@@ -72,10 +72,10 @@ namespace TextFilterApp.Services
         /// <param name="words"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public List<string> GetAllContainingChar(List<string> words, char value = 't')
+        public IEnumerable<string> GetAllContainingChar(IEnumerable<string> words, char value = 't')
         {
             ValidateParameters(words);
-            return words.Where(x => x.Contains(value)).ToList();
+            return words.Where(x => x.Contains(value));
         }
 
         /// <summary>

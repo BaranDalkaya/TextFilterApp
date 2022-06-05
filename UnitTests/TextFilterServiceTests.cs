@@ -1,4 +1,4 @@
-using TextFilterApp.Services;
+using Application.Services;
 
 namespace UnitTests
 {
@@ -43,7 +43,7 @@ namespace UnitTests
             var result = _service.FilterOutSymbols(text);
 
             Assert.IsNotNull(result);
-            CollectionAssert.AreEqual(expexted, result);
+            CollectionAssert.AreEqual(expexted, result.ToList());
         }
 
         [TestMethod]
@@ -54,7 +54,7 @@ namespace UnitTests
             var result = _service.FilterOutSymbols(string.Empty);
 
             Assert.IsNotNull(result);
-            CollectionAssert.AreEqual(expexted, result);
+            CollectionAssert.AreEqual(expexted, result.ToList());
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@ namespace UnitTests
             var result = _service.GetAllContainingAnyFromCollectionInMiddle(words, collection);
 
             Assert.IsNotNull(result);
-            CollectionAssert.AreEqual(expexted, result);
+            CollectionAssert.AreEqual(expexted, result.ToList());
         }
 
         [TestMethod]
@@ -87,7 +87,7 @@ namespace UnitTests
             var result = _service.GetAllContainingAnyFromCollectionInMiddle(new List<string>(), collection);
 
             Assert.IsNotNull(result);
-            CollectionAssert.AreEqual(expexted, result);
+            CollectionAssert.AreEqual(expexted, result.ToList());
         }
 
         [TestMethod]
@@ -98,7 +98,7 @@ namespace UnitTests
             var result = _service.GetAllContainingAnyFromCollectionInMiddle(words, "".ToCharArray());
 
             Assert.IsNotNull(result);
-            CollectionAssert.AreEqual(expexted, result);
+            CollectionAssert.AreEqual(expexted, result.ToList());
         }
 
         [TestMethod]
@@ -125,7 +125,7 @@ namespace UnitTests
             var result = _service.GetAllShorterThan(words);
 
             Assert.IsNotNull(result);
-            CollectionAssert.AreEqual(expexted, result);
+            CollectionAssert.AreEqual(expexted, result.ToList());
         }
 
         [TestMethod]
@@ -136,7 +136,7 @@ namespace UnitTests
             var result = _service.GetAllShorterThan(words, 3);
 
             Assert.IsNotNull(result);
-            CollectionAssert.AreEqual(expexted, result);
+            CollectionAssert.AreEqual(expexted, result.ToList());
         }
 
         [TestMethod]
@@ -147,7 +147,7 @@ namespace UnitTests
             var result = _service.GetAllShorterThan(new List<string>());
 
             Assert.IsNotNull(result);
-            CollectionAssert.AreEqual(expexted, result);
+            CollectionAssert.AreEqual(expexted, result.ToList());
         }
 
         [TestMethod]
@@ -168,7 +168,7 @@ namespace UnitTests
             var result = _service.GetAllContainingChar(words);
 
             Assert.IsNotNull(result);
-            CollectionAssert.AreEqual(expexted, result);
+            CollectionAssert.AreEqual(expexted, result.ToList());
         }
 
         [TestMethod]
@@ -179,7 +179,7 @@ namespace UnitTests
             var result = _service.GetAllContainingChar(words, 'o');
 
             Assert.IsNotNull(result);
-            CollectionAssert.AreEqual(expexted, result);
+            CollectionAssert.AreEqual(expexted, result.ToList());
         }
 
         [TestMethod]
@@ -190,7 +190,7 @@ namespace UnitTests
             var result = _service.GetAllContainingChar(new List<string>());
 
             Assert.IsNotNull(result);
-            CollectionAssert.AreEqual(expexted, result);
+            CollectionAssert.AreEqual(expexted, result.ToList());
         }
 
         [TestMethod]

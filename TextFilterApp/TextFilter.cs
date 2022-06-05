@@ -1,16 +1,48 @@
-﻿using TextFilterApp.Services.Interfaces;
+﻿using Application.Services.Interfaces;
 
-namespace TextFilterApp
+namespace Application
 {
     public class TextFilter
     {
         private ITextFilterService _textFilterService { get; set; }
+        private IAssemblyLoader _assemblyLoader { get; set; }
 
         private readonly char[] vowels = "aeiou".ToCharArray();
 
-        public TextFilter(ITextFilterService textFilterService)
+        public TextFilter(ITextFilterService textFilterService, IAssemblyLoader assemblyLoader)
         {
             _textFilterService = textFilterService;
+            _assemblyLoader = assemblyLoader;
+        }
+
+
+        /// <summary>
+        /// Applies FilterText Method to the loaded file line by line, writing the filtered words to the console.
+        /// </summary>
+        /// <param name="resourceName"></param>
+        public void ApplyFiltersToFile(string resourceName)
+        {
+            var stream = _assemblyLoader.LoadEmbeddedResource(resourceName);
+            if (stream != null)
+            {
+                using (var sr = new StreamReader(stream))
+                {
+                    while (!sr.EndOfStream)
+                    {
+                        var line = sr.ReadLine();
+                        var filteredWords = FilterText(line);
+
+                        foreach (var word in filteredWords)
+                        {
+                            Console.WriteLine(word);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Failed loading resource: {resourceName}");
+            }
         }
 
         /// <summary>
@@ -22,7 +54,7 @@ namespace TextFilterApp
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public List<string> FilterText(string text)
+        public IEnumerable<string> FilterText(string text)
         {
             if (string.IsNullOrEmpty(text)) return new List<string>();
 

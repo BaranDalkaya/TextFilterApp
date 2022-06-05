@@ -1,10 +1,10 @@
-﻿namespace TextFilterApp.Services.Interfaces
+﻿namespace Application.Services.Interfaces
 {
     public interface ITextFilterService
     {
-        List<string> FilterOutSymbols(string text);
-        List<string> GetAllContainingAnyFromCollectionInMiddle(List<string> words, char[] collection);
-        List<string> GetAllShorterThan(List<string> words, int value = 4);
-        List<string> GetAllContainingChar(List<string> words, char value = 't');
+        IEnumerable<string> FilterOutSymbols(string text);
+        IEnumerable<string> GetAllContainingAnyFromCollectionInMiddle(IEnumerable<string> words, char[] collection);
+        IEnumerable<string> GetAllShorterThan(IEnumerable<string> words, int value = 4);
+        IEnumerable<string> GetAllContainingChar(IEnumerable<string> words, char value = 't');
     }
 }
